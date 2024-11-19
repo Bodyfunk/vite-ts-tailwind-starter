@@ -1,42 +1,52 @@
-import { unheadVueComposablesImports } from '@unhead/vue'
-import vue from '@vitejs/plugin-vue'
-import { fileURLToPath, URL } from 'node:url'
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
-import PackageJson from './package.json' with { type: 'json' }
+import vue from '@vitejs/plugin-vue'
+import path from 'path'
+import viteLegacyPlugin from '@vitejs/plugin-legacy'
 
-process.env.VITE_APP_VERSION = PackageJson.version
-if (process.env.NODE_ENV === 'production') {
-  process.env.VITE_APP_BUILD_EPOCH = new Date().getTime().toString()
-}
-
+// https://vite.dev/config/
 export default defineConfig({
-  plugins: [
-    vue(),
-    AutoImport({
-      imports: [
-        'vue',
-        'vue-router',
-        'pinia',
-        {
-          '@/store': ['useStore'],
-        },
-        unheadVueComposablesImports,
-      ],
-      dts: 'auto-imports.d.ts',
-      vueTemplate: true,
-    }),
-    Components({
-      dts: 'components.d.ts',
-    }),
-  ],
+  plugins: [viteLegacyPlugin({
+    targets: ['defaults', 'not IE 11']
+  }), vue()],
+  build: {
+    target: ['es2015', 'chrome63']
+  },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      // 设置路径
+      '~': path.resolve(__dirname, './'),
+      // 设置别名
+      '@': path.resolve(__dirname, './src')
     },
+    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
   },
-  css: {
-    preprocessorMaxWorkers: true,
+  server: {
+    port: 5173,
+    host: true,
+    open: true,
+    proxy: {
+      // https://cn.vitejs.dev/config/#server-proxy
+      '/api/search': {
+        target: 'http://192.168.21.178:1234',
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/api/, '')
+      },
+      '/api/v1/chat/completions': {
+        target: 'http://192.168.21.178:8080',
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/api/, '')
+      },
+      '/api/rerank': {
+        target: 'http://192.168.21.178:8000',
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/api/, '')
+      },
+      '/api/test/v1': {
+        target: 'http://localhost:8081',
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/api/, '')
+      }
+    }
   },
+  base: './',
 })
