@@ -1,64 +1,61 @@
 <template>
     <div class="home-page">
-        <div class="home-page-content">
-            <h1>通用AI搜索</h1>
-            <h2>AI聚合,一键直达</h2>
-            <div class="search-box">
-                <SearchBox></SearchBox>
-            </div>
-            <div class="search-hot-box">
-
+        <div class="home-page-content grid">
+            <div v-for="(item, index) in tools" :key="index" class="home-page-item">
+                <ToolCard :tool="item" />
             </div>
         </div>
+
 
     </div>
 </template>
 
 <script setup lang="ts">
-import SearchBox from './components/SearchBox.vue';
+import ToolCard from './components/ToolCard.vue';
+import { tools } from './data'
 
 
 </script>
 
 <style scoped>
-h1 {
-    font-size: 72px;
-    color: #7F83F7;
-    font-weight: bold;
-}
-
-h2 {
-    font-size: 48px;
-    color: #BEBEBE;
-    font-weight: bold;
-}
-
 .home-page {
     width: 100%;
-    height: 100%;
+    padding: 24px;
     position: relative;
+    background-color: #f1f5f9;
+    overflow: auto;
+}
+
+.grid {
+    display: grid;
+    gap: 12px;
 }
 
 .home-page-content {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 
-.search-box {
-    width: 40vw;
-    max-width: 800px;
-    min-width: 300px;
-    height: 120px;
-    background-color: #EFEFEF;
-    border: 1px solid #BEBEBE;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
+@media (min-width: 640px) {
+    .home-page-content {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
 }
 
-.search-hot-box {}
+@media (min-width: 768px) {
+    .home-page-content {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .home-page-content {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1280px) {
+    .home-page-content {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
 </style>

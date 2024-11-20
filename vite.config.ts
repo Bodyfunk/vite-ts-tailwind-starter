@@ -26,23 +26,8 @@ export default defineConfig({
     open: true,
     proxy: {
       // https://cn.vitejs.dev/config/#server-proxy
-      '/api/search': {
-        target: 'http://192.168.21.178:1234',
-        changeOrigin: true,
-        rewrite: (p) => p.replace(/^\/api/, '')
-      },
-      '/api/v1/chat/completions': {
-        target: 'http://192.168.21.178:8080',
-        changeOrigin: true,
-        rewrite: (p) => p.replace(/^\/api/, '')
-      },
-      '/api/rerank': {
-        target: 'http://192.168.21.178:8000',
-        changeOrigin: true,
-        rewrite: (p) => p.replace(/^\/api/, '')
-      },
-      '/api/test/v1': {
-        target: 'http://localhost:8081',
+      '/api/fanyi': {
+        target: 'http://192.168.21.178:5000',
         changeOrigin: true,
         rewrite: (p) => p.replace(/^\/api/, '')
       }
