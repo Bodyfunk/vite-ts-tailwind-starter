@@ -30,6 +30,21 @@ export default defineConfig({
         target: 'http://192.168.21.178:5000',
         changeOrigin: true,
         rewrite: (p) => p.replace(/^\/api/, '')
+      },
+      '/api/translate': {
+        target: 'http://192.168.21.178:5001',
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/api/, '')
+      },
+      '/api/my/fanyi': {
+        target: 'http://192.168.21.178:6000',
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/api\/my/, '')
+      },
+      '/api/ocr': {
+        target: 'http://192.168.21.178:5000',
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/api\/ocr/, '')
       }
     }
   },

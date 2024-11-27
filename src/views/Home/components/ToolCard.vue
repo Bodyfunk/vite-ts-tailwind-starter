@@ -1,10 +1,12 @@
 <template>
     <div class="card" @click="openLink(tool.router)">
-        <el-icon :size="36" color="rgb(163 163 163)">
-            <component :is="tool.icon"></component>
-        </el-icon>
-        <div class="content">
+        <div class="head">
+            <el-icon :size="36" color="rgb(163 163 163)">
+                <component :is="tool.icon"></component>
+            </el-icon>
             <div class="title">{{ tool.name }}</div>
+        </div>
+        <div class="content">
             <div class="description">{{ tool.description }}</div>
         </div>
     </div>
@@ -37,18 +39,23 @@ const openLink = (link: string) => {
     border: #006fff 0.2em solid;
 }
 
+.head {
+    display: flex;
+    align-items: center;
+}
+
 .title {
     font-size: 1.125em;
     line-height: 1.75em;
-    margin: 6px;
+    margin: 6px 10px;
 }
 
 .description {
     color: rgb(115, 115, 115);
-
-    overflow: hidden;
+    min-height: 4.5em;
+    /* overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 2; */
 }
 </style>

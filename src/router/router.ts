@@ -11,6 +11,21 @@ const routes = [
         name: 'translate',
         component: () => import('../views/Translate/index.vue'),
     },
+    {
+        path: '/ocr',
+        name: 'ocr',
+        component: () => import('../views/OCR/index.vue'),
+    },
+    {
+        path: '/video',
+        name: 'video',
+        component: () => import('../views/Video/index.vue'),
+    },
+    {
+        path: '/pdf',
+        name: 'pdf',
+        component: () => import('../views/PDF/index.vue'),
+    },
 ]
 
 const router = createRouter({

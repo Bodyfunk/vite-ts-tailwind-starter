@@ -1,6 +1,6 @@
 <template>
     <div class="home-page">
-        <div class="home-page-content grid">
+        <div class="home-page-content grid page-center">
             <div v-for="(item, index) in tools" :key="index" class="home-page-item">
                 <ToolCard :tool="item" />
             </div>
@@ -24,6 +24,14 @@ import { tools } from './data'
     position: relative;
     background-color: #f1f5f9;
     overflow: auto;
+}
+
+.page-center {
+    width: 80%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .grid {
