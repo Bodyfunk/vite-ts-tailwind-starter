@@ -40,7 +40,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { modelList, supportedLanguageList } from './data'
-import { translateByNMT, translateByMadlad } from '@/api/translate';
+import { translateByNMT, translateByMadlad, translateByGpt } from '@/api/translate';
 import GoHome from '@/components/GoHome.vue';
 import { debounce } from '@/utils/ruoyi';
 
@@ -64,6 +64,9 @@ const handleTranslating = async () => {
         switch (model.value) {
             case 'madlad400-7b':
                 result = await translateByMadlad(queryText, sourceLanguage.value, targetLanguage.value)
+                break;
+            case 'gpt':
+                result = await translateByGpt(queryText, sourceLanguage.value, targetLanguage.value)
                 break;
             case 'NMT':
             default:
@@ -94,6 +97,8 @@ const handleChangeModel = (value: string) => {
             targetLanguage.value = 'zh'
             break;
         default:
+            sourceLanguage.value = 'en'
+            targetLanguage.value = 'zh'
             break;
     }
 }

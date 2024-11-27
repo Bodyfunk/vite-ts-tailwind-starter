@@ -10,7 +10,7 @@ export const modelList = [
     //     disable: true
     // },
     {
-        name: "gpt3.5",
+        name: "madlad400-7b",
         value: "madlad400-7b",
         disable: false
     },
@@ -22,6 +22,11 @@ export const modelList = [
     {
         name: "transformers",
         value: "NMT",
+        disable: false
+    },
+    {
+        name: "chatGPT",
+        value: "gpt",
         disable: false
     },
     // {
@@ -81,7 +86,7 @@ const mntLanguageList = [
     { name: '繁体中文', value: 'zt' }
 ]
 
-const gptLanguageList = [
+const m2LanguageList = [
   { name: '南非语', value: 'af' },
   { name: '阿姆哈拉语', value: 'am' },
   { name: '阿拉伯语', value: 'ar' },
@@ -184,8 +189,17 @@ const gptLanguageList = [
   { name: '祖鲁语', value: 'zu' }
 ]
 
+const gptLanguageList = [{
+    name: '中文',
+    value: 'zh'
+}, {
+    name: '英语',
+    value: 'en'
+}]
+
 
 export const supportedLanguageList:{[key:string]:{name:string,value:string}[]} = {
-    'madlad400-7b': gptLanguageList,
-    'NMT': mntLanguageList
+    'madlad400-7b': m2LanguageList,
+    'NMT': mntLanguageList,
+    'gpt': gptLanguageList
 }

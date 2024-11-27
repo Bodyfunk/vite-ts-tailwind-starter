@@ -1,6 +1,5 @@
 import request from '@/utils/request'
 import { ElMessage } from 'element-plus'
-import { fetchEventSource } from "@microsoft/fetch-event-source"
 
 // 翻译
 export function translateByMadlad(query: string, src: string, target: string) {
@@ -9,7 +8,7 @@ export function translateByMadlad(query: string, src: string, target: string) {
         src: src,
         dst: target
     }
-    let url = '/api/my/fanyi'
+    let url = '/m2m/fanyi'
     return request({
         url,
         method: 'post',
@@ -30,6 +29,21 @@ export function translateByNMT(query: string, src: string, target: string) {
         format: 'text'
     }
     let url = '/api/translate'
+    return request({
+        url,
+        method: 'post',
+        data
+    })
+}
+
+// 翻译
+export function translateByGpt(query: string, src: string, target: string) {
+    const data = {
+        text: query,
+        src: src,
+        dst: target,
+    }
+    let url = '/gpt/fanyi'
     return request({
         url,
         method: 'post',
@@ -63,7 +77,7 @@ export function fetchAudio(file: any) {
     const data = new FormData()
     console.log('File对象:', file);
     data.append('file', file, 'video.wav')  
-    let url = `/api/ocr/transcribe`
+    let url = `/api/video/transcribe`
     return request({
         url,
         method: 'post',
@@ -79,7 +93,7 @@ export async function fetchStream(file: any, callBack: (chunk: string, done?: bo
     const data = new FormData()
     console.log('File对象:', file);
     data.append('file', file, 'video.wav')  
-    const response = await fetch('/api/ocr/transcribe', {
+    const response = await fetch('/api/video/transcribe', {
         method: 'POST',       
         body: data,
     });

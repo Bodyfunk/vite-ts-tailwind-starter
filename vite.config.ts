@@ -26,23 +26,33 @@ export default defineConfig({
     open: true,
     proxy: {
       // https://cn.vitejs.dev/config/#server-proxy
-      '/api/fanyi': {
-        target: 'http://192.168.21.178:5000',
+      '/m2m/fanyi': {
+        target: 'http://192.168.21.178:6001',
         changeOrigin: true,
-        rewrite: (p) => p.replace(/^\/api/, '')
+        rewrite: (p) => p.replace(/^\/m2m/, '')
+      },
+      '/gpt/fanyi': {
+        target: 'http://192.168.21.178:5003',
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/gpt/, '')
       },
       '/api/translate': {
         target: 'http://192.168.21.178:5001',
         changeOrigin: true,
         rewrite: (p) => p.replace(/^\/api/, '')
       },
-      '/api/my/fanyi': {
-        target: 'http://192.168.21.178:6000',
+      // '/api/my/fanyi': {
+      //   target: 'http://192.168.21.178:6000',
+      //   changeOrigin: true,
+      //   rewrite: (p) => p.replace(/^\/api\/my/, '')
+      // },
+      '/api/video': {
+        target: 'http://192.168.21.178:5000',
         changeOrigin: true,
-        rewrite: (p) => p.replace(/^\/api\/my/, '')
+        rewrite: (p) => p.replace(/^\/api\/video/, '')
       },
       '/api/ocr': {
-        target: 'http://192.168.21.178:5000',
+        target: 'http://192.168.21.178:5002',
         changeOrigin: true,
         rewrite: (p) => p.replace(/^\/api\/ocr/, '')
       }
