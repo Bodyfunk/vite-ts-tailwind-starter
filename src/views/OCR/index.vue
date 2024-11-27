@@ -104,10 +104,11 @@
                     保存图片
                 </el-button>
             </div>
-            <div>
+            <div v-if="ocrResult">
                 <h2>第四步：识别结果</h2>
+                <el-button class="ml-3" type="primary" @click="saveOcrResult">保存</el-button>
                 <div class="result-page">
-                    <iframe :srcdoc="ocrResult" frameborder="0" @load="resizeIframe"></iframe>
+                    <iframe id="myIframe" :srcdoc="ocrResult" frameborder="0" @load="resizeIframe"></iframe>
                 </div>
             </div>
         </div>
@@ -339,6 +340,30 @@ const translatePreProcessMethodTips = (methods: string[]) => {
         return preProcessMethodTips[method]
     }
     return ''
+}
+
+const saveOcrResult = () => {
+    // 获取 iframe 内的内容
+    const iframe = document.getElementById('myIframe') as HTMLIFrameElement;
+    if (!iframe) return
+    const iframeContent = iframe.contentDocument?.documentElement.outerHTML ?? '';
+
+    // 创建一个 Blob 对象
+    const blob = new Blob([iframeContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+
+    // 创建一个下载链接并触发下载
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ocr-result.html';  // 设置保存的文件名
+    document.body.appendChild(a);
+    a.click();
+
+    // 清理
+    setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }, 0);
 }
 
 

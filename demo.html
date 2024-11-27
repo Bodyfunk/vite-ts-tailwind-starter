@@ -1,57 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WAV to MP3 Conversion</title>
+    <title>保存 iframe 内容为 HTML 文件</title>
 </head>
 
 <body>
-    <input type="file" id="inputFile" accept=".wav" />
-    <button id="convertBtn">Convert to MP3</button>
-    <audio id="audioPlayer" controls></audio>
-    <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@latest"></script> <!-- 引入FFmpeg -->
+    <h1>保存 iframe 内容为 HTML 文件</h1>
+    <iframe id="myIframe" srcdoc="<h2>Hello, World!</h2><p>This is some content inside the iframe.</p>" width="600"
+        height="400"></iframe>
+    <br>
+    <button id="saveButton">保存为 HTML 文件</button>
+
     <script>
-        document.getElementById('convertBtn').addEventListener('click', async () => {
-            const fileInput = document.getElementById('inputFile');
-            const file = fileInput.files[0];
+        document.getElementById('saveButton').addEventListener('click', function () {
+            // 获取 iframe 内的内容
+            const iframe = document.getElementById('myIframe');
+            const iframeContent = iframe.contentDocument.documentElement.outerHTML;
 
-            if (!file) {
-                alert('Please select a WAV file to convert.');
-                return;
-            }
+            // 创建一个 Blob 对象
+            const blob = new Blob([iframeContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
 
-            const reader = new FileReader();
-            reader.onload = async function () {
-                const inputData = new Uint8Array(reader.result);
+            // 创建一个下载链接并触发下载
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'iframe-content.html';  // 设置保存的文件名
+            document.body.appendChild(a);
+            a.click();
 
-                // 使用 FFmpeg 进行转换
-                const mp3Blob = await ffmpegBuild(inputData);
-                const mp3Url = URL.createObjectURL(mp3Blob);
-
-                document.getElementById('audioPlayer').src = mp3Url; // 设置音频播放器源
-            };
-
-            reader.readAsArrayBuffer(file);
+            // 清理
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 0);
         });
-
-        async function ffmpegBuild(inputData) {
-            const { createFFmpeg } = FFmpegWASM; // 从加载的ffmpeg.js获取
-            const ffmpeg = createFFmpeg({ log: true });
-
-            await ffmpeg.load(); // 加载ffmpeg
-            ffmpeg.FS('writeFile', 'input.wav', inputData); // 文件写入FFmpeg的虚拟文件系统
-
-            await ffmpeg.run('-i', 'input.wav', 'output.mp3'); // 转换命令
-
-            // 从虚拟文件系统中读取输出文件
-            const data = ffmpeg.FS('readFile', 'output.mp3');
-
-            // 返回MP3文件数据
-            return new Blob([data.buffer], { type: 'audio/mp3' });
-        }
     </script>
 </body>
 
