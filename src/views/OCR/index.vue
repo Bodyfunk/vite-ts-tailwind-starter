@@ -119,7 +119,7 @@
 import GoHome from '@/components/GoHome.vue';
 import { preProcessMethods, IPreProcessParams, preProcessMethodsConfig, preProcessMethodTips, preProcessParams } from './data.ts';
 import { nextTick, ref } from 'vue'
-import { ElMessage, genFileId, UploadProps, UploadRawFile, type UploadFile, type UploadInstance, type UploadRequestOptions, type UploadUserFile } from 'element-plus'
+import { ElMessage, genFileId, UploadProps, UploadRawFile, type UploadFile, type UploadInstance, type UploadUserFile } from 'element-plus'
 import { ocrImg } from '@/api/translate.ts';
 
 const uploadRef = ref<UploadInstance>()
@@ -127,7 +127,7 @@ const fileList = ref<UploadUserFile[]>([])
 const usePre = ref(false)
 const modelType = ref<'ocr' | 'deepocr'>('deepocr')
 const formatOutput = ref(true)
-const ocrResult = ref('')
+const ocrResult = ref("")
 const loading = ref(false)
 // 预处理环节数组
 const preProcessMethodsList = ref<IPreProcessParams[]>([
